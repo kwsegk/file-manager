@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.egor.controller.MainController">
+   <top>
+      <VBox prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar id="menuBar">
+               <menus>
+                  <Menu mnemonicParsing="false" text="Файл">
+                    <items>
+                      <MenuItem fx:id="menuItemNewFile" mnemonicParsing="false" onAction="#createNewFile" text="Создать файл" />
+                        <MenuItem fx:id="menuItemNewFolder" mnemonicParsing="false" onAction="#createNewFolder" text="Создать папку" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="menuItemSettings" mnemonicParsing="false" onAction="#showSettings" text="Настройки" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="menuItemExit" mnemonicParsing="false" onAction="#exit" text="Выход" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Правка">
+                    <items>
+                      <MenuItem fx:id="menuItemCopy" mnemonicParsing="false" onAction="#copyFile" text="Копировать" />
+                        <MenuItem fx:id="menuItemCut" mnemonicParsing="false" onAction="#cutFile" text="Вырезать" />
+                        <MenuItem fx:id="menuItemPaste" mnemonicParsing="false" onAction="#pasteFile" text="Вставить " />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="menuItemRename" mnemonicParsing="false" onAction="#renameFile" text="Переименовать" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" onAction="#deleteFile" text="Удалить" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Вид">
+                    <items>
+                      <MenuItem fx:id="menuItemHidden" mnemonicParsing="false" onAction="#hidePressed" text="Показывать скрытые файлы" />
+                        <MenuItem mnemonicParsing="false" text="Боковая панель" />
+                        <MenuItem fx:id="menuItemHistory" mnemonicParsing="false" onAction="#historyShow" text="История" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Инструменты">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#searchFiles" text="Поиск файлов" />
+                        <MenuItem mnemonicParsing="false" onAction="#analyzeFolderSize" text="Анализ папки" />
+                        <MenuItem mnemonicParsing="false" onAction="#openHexEditor" text="Hex-редактор" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Помощь">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#showAbout" text="О программе" />
+                        <MenuItem mnemonicParsing="false" onAction="#showDocumentation" text="Документация" />
+                    </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                <Button fx:id="btnBack" mnemonicParsing="false" onAction="#navigateBack" text="Назад" />
+                  <Button fx:id="btnForward" mnemonicParsing="false" onAction="#navigateForward" text="Вперёд" />
+                  <Button fx:id="btnUp" mnemonicParsing="false" onAction="#navigateUp" text="Вверх" />
+                  <Button fx:id="btnHome" mnemonicParsing="false" onAction="#navigateHome" text="Домой" />
+                  <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="7.0" />
+                  <ComboBox fx:id="comboPath" editable="false" prefWidth="450.0" />
+                  <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#searchOrNavigate" prefHeight="33.0" prefWidth="92.0" text="Поиск" />
+              </items>
+            </ToolBar>
+            <HBox fx:id="breadcrumbBox" alignment="CENTER_LEFT" prefHeight="30.0" spacing="5.0">
+               <padding>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </padding>
+               <children>
+                  <Label text="Путь:" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <left>
+      <VBox prefHeight="536.0" prefWidth="180.0" styleClass="side-panel" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="25.0" prefWidth="180.0" text="  Избранное" textAlignment="LEFT">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <ListView fx:id="favoritesList" prefHeight="450.0" prefWidth="180.0" VBox.vgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#addToFavorites" text="+ Добавить" prefWidth="180.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#removeFromFavorites" text="- Удалить" prefWidth="180.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <TableView fx:id="tableFiles" prefHeight="436.0" prefWidth="761.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="colIcon" prefWidth="50.0" text="" />
+          <TableColumn fx:id="colName" prefWidth="170.0" text="Имя" />
+          <TableColumn fx:id="colFormat" prefWidth="120.0" text="Формат" />
+            <TableColumn fx:id="colSize" prefWidth="130.0" text="Размер" />
+            <TableColumn fx:id="colDate" prefWidth="230.0" text="Дата изменения" />
+            <TableColumn fx:id="colType" prefWidth="130.0" text="Тип" />
+        </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" styleClass="bottom-panel" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <children>
+            <Label fx:id="labelSelected" prefHeight="17.0" prefWidth="264.0" text="Ничего не выбрано" />
+            <Region prefHeight="90.0" prefWidth="633.0" />
+            <Label fx:id="labelTotal" prefHeight="17.0" prefWidth="201.0" text="Всего файлов  -" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
